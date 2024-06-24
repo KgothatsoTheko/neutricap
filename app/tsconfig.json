@@ -11,11 +11,15 @@
     "importHelpers": true,
     "target": "es2015",
     "typeRoots": [
-      "node_modules/@types"
+      "node_modules/@types",
+      "src/app/components"
     ],
     "lib": [
       "es2018",
       "dom"
     ]
-  }
+  }, "includes": [
+    "src/app/components/cordova.d.ts"
+
+  ]
 }

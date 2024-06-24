@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router'; //_splitter_
 import { SDPageCommonService } from 'app/n-services/sd-page-common.service'; //_splitter_
 import { SDBaseService } from 'app/n-services/SDBaseService'; //_splitter_
 import { NeuServiceInvokerService } from 'app/n-services/service-caller.service'; //_splitter_
+import { face_api } from 'app/sd-services/face_api'; //_splitter_
 import * as faceapi from 'face-api.js'; //_splitter_
 //append_imports_end
 
@@ -204,7 +205,7 @@ export class take_selfieComponent implements AfterViewInit {
     try {
       const route = this.__page_injector__.get(ActivatedRoute);
       this.page.routeData = route.snapshot.queryParams;
-      this.sd_1Ofi6hM1bSBi8SXn(bh);
+      bh = this.sd_nHXUO7N48Hwibxqg(bh);
       //appendnew_next_sd_DvoqaNOvHalcTn3Y
       return bh;
     } catch (e) {
@@ -212,13 +213,16 @@ export class take_selfieComponent implements AfterViewInit {
     }
   }
 
-  sd_1Ofi6hM1bSBi8SXn(bh) {
+  async sd_nHXUO7N48Hwibxqg(bh) {
     try {
-      console.log(new Date().toLocaleTimeString(), this.page.routeData);
-      //appendnew_next_sd_1Ofi6hM1bSBi8SXn
+      const face_apiInstance: face_api = this.__page_injector__.get(face_api);
+
+      let outputVariables = await face_apiInstance.loadModelsFromGit();
+
+      //appendnew_next_sd_nHXUO7N48Hwibxqg
       return bh;
     } catch (e) {
-      return this.errorHandler(bh, e, 'sd_1Ofi6hM1bSBi8SXn');
+      return this.errorHandler(bh, e, 'sd_nHXUO7N48Hwibxqg');
     }
   }
 
@@ -240,7 +244,6 @@ export class take_selfieComponent implements AfterViewInit {
       page.video.nativeElement.controls = false;
       console.log(page.video);
       console.log(bh);
-      bh = this.sd_zdutScQeAYqmLzib(bh);
       //appendnew_next_sd_YIKzF5GhLrdQCfLs
       return bh;
     } catch (e) {
@@ -248,35 +251,87 @@ export class take_selfieComponent implements AfterViewInit {
     }
   }
 
-  sd_zdutScQeAYqmLzib(bh) {
-    try {
-      let outputVariables = this.fetchModels();
-
-      //appendnew_next_sd_zdutScQeAYqmLzib
-      return bh;
-    } catch (e) {
-      return this.errorHandler(bh, e, 'sd_zdutScQeAYqmLzib');
-    }
-  }
-
   sd_SNdARB2MWIUjYKxX(bh) {
     try {
-      const page = this.page;
+      const page = this.page; // interface Navigator {
+      //   notification: {
+      //     alert: (message: string, alertCallback: () => void, title?: string, buttonName?: string) => void;
+      //   };
+      //   device: {
+      //     capture: {
+      //       captureVideo: (
+      //         successCallback: (mediaFiles: MediaFile[]) => void,
+      //         errorCallback: (error: CaptureError) => void,
+      //         options?: CaptureVideoOptions
+      //       ) => void;
+      //     };
+      //   };
+      // }
+
+      // interface MediaFile {
+      //   // Add properties for MediaFile if needed
+      // }
+
+      // interface CaptureError {
+      //   code: number;
+      //   message: string;
+      // }
+
+      // interface CaptureVideoOptions {
+      //   limit?: number;
+      //   duration?: number;
+      //   // Add other options if needed
+      // }
+
       page.videoStream = page.video.nativeElement;
-      // document.addEventListener("deviceready", openVid, false);
+
+      // capture callback
+      const captureSuccess = (mediaFiles) => {
+        let i, path, len;
+        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
+          path = mediaFiles[i].fullPath;
+          // do something interesting with the file
+          console.log(path);
+        }
+      };
 
       // capture error callback
-      // const captureError = (error)  => {
-      //     if(window.innerWidth < 1024) {
-      //         navigator?.notification.alert('Error code: ' + error.code, null, 'Capture Error');
-      //     }
-      // };
+      const captureError = (error) => {
+        if (window.innerWidth < 1024) {
+          navigator?.notification.alert(
+            'Error code: ' + error.code,
+            null,
+            'Capture Error'
+          );
+        }
+      };
 
-      // const openVid = () => {
+      const openVid = () => {
+        if ('mediaDevices' in navigator) {
+          if (window.innerWidth < 1024) {
+            navigator?.device.capture.captureVideo(
+              captureSuccess,
+              captureError
+            );
+          } else {
+            navigator.mediaDevices
+              .getUserMedia({ video: {}, audio: false })
+              .then((mediaStream) => {
+                page.videoStream.srcObject = mediaStream;
+                page.videoStream.onloadedmetadata = () => {
+                  page.videoStream.play();
+                };
+              })
+              .catch((err) => {
+                console.log('Playing a video error', err);
+              });
+          }
+        }
+      };
+
+      document.addEventListener('deviceready', openVid, false);
+
       // if('mediaDevices' in navigator) {
-      //     if(window.innerWidth < 1024) {
-      //         navigator?.device.capture.captureVideo(captureSuccess, captureError)
-      //     }else {
       //         navigator.mediaDevices.getUserMedia({video: {}, audio: false})
       //             .then((mediaStream) => {
       //                 page.videoStream.srcObject = mediaStream
@@ -289,32 +344,6 @@ export class take_selfieComponent implements AfterViewInit {
       //             }
       //         )
       //     }
-      //    }
-      // }
-
-      if ('mediaDevices' in navigator) {
-        navigator.mediaDevices
-          .getUserMedia({ video: {}, audio: false })
-          .then((mediaStream) => {
-            page.videoStream.srcObject = mediaStream;
-            page.videoStream.onloadedmetadata = () => {
-              page.videoStream.play();
-            };
-          })
-          .catch((err) => {
-            console.log('Playing a video error', err);
-          });
-      }
-
-      // capture callback
-      // const captureSuccess = (mediaFiles) => {
-      //     let i, path, len;
-      //     for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-      //         path = mediaFiles[i].fullPath;
-      // do something interesting with the file
-      //         console.log(path)
-      //     }
-      // };
 
       console.log(faceapi);
 

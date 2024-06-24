@@ -16,6 +16,8 @@ window['neutrinos'] = {
 };
 
 //CORE_REFERENCE_IMPORTS
+//CORE_REFERENCE_IMPORT-face_api
+import { face_api } from '../sd-services/face_api';
 //CORE_REFERENCE_IMPORT-undercostructionsComponent
 import { undercostructionsComponent } from '../components/undercostructions.component';
 //CORE_REFERENCE_IMPORT-terms_and_condtionsComponent
@@ -387,6 +389,8 @@ export const appProviders = [
   },
   NAuthGuardService,
   //CORE_REFERENCE_PUSH_TO_PRO_ARRAY
+//CORE_REFERENCE_PUSH_TO_PRO_ARRAY-face_api
+face_api,
   //CORE_REFERENCE_PUSH_TO_PRO_ARRAY-api_service
   api_service,
 ];

@@ -57,6 +57,9 @@
         "@angular/cli": "13.3.11",
         "@angular/compiler-cli": "13.4.0",
         "@angular/language-service": "13.4.0",
+        "@types/cordova": "11.0.3",
+        "@types/cordova-plugin-device": "1.1.5",
+        "@types/cordova-plugin-media-capture": "1.4.2",
         "@types/node": "12.12.42",
         "com.cordova.plugins.cookiemaster": "1.0.1",
         "cordova-android": "10.1.2",
@@ -116,7 +119,9 @@
                 "CAMERA_USAGE_DESCRIPTION": "",
                 "PHOTOLIBRARY_USAGE_DESCRIPTION": ""
             },
-            "cordova-plugin-file": {},
+            "cordova-plugin-file": {
+                "ANDROIDX_WEBKIT_VERSION": "1.4.0"
+            },
             "cordova-plugin-geolocation": {
                 "GPS_REQUIRED": "true"
             },

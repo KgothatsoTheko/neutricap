@@ -3,13 +3,14 @@
 //CORE_REFERENCE_IMPORTS
 //append_imports_start
 
-import { AfterViewInit, Component, Injector, ViewChild } from '@angular/core'; //_splitter_
+import { Component, Injector, ViewChild } from '@angular/core'; //_splitter_
 import { FormBuilder } from '@angular/forms'; //_splitter_
 import { MatSnackBar } from '@angular/material/snack-bar'; //_splitter_
 import { Router } from '@angular/router'; //_splitter_
 import { SDPageCommonService } from 'app/n-services/sd-page-common.service'; //_splitter_
 import { SDBaseService } from 'app/n-services/SDBaseService'; //_splitter_
 import { NeuServiceInvokerService } from 'app/n-services/service-caller.service'; //_splitter_
+import { face_api } from 'app/sd-services/face_api'; //_splitter_
 import * as faceapi from 'face-api.js'; //_splitter_
 //append_imports_end
 
@@ -20,7 +21,7 @@ import * as faceapi from 'face-api.js'; //_splitter_
     //appendnew_element_providers
   ],
 })
-export class verify_identityComponent implements AfterViewInit {
+export class verify_identityComponent {
   @ViewChild('image')
   public image: any = null;
   page: any = { dep: {} };
@@ -166,17 +167,6 @@ export class verify_identityComponent implements AfterViewInit {
       return this.errorHandler(bh, e, 'sd_L0DD33j8JQBJeYVe');
     }
   }
-  ngAfterViewInit() {
-    try {
-      var bh: any = this.__page_injector__
-        .get(SDPageCommonService)
-        .constructFlowObject(this);
-      bh = this.sd_IJbhT0KUb6Z1sduz(bh);
-      //appendnew_next_ngAfterViewInit
-    } catch (e) {
-      return this.errorHandler(bh, e, 'sd_yMqstbfvivON4QJl');
-    }
-  }
 
   showPwd(...others) {
     let bh: any = {};
@@ -219,21 +209,6 @@ export class verify_identityComponent implements AfterViewInit {
       //appendnew_next_goBack
     } catch (e) {
       return this.errorHandler(bh, e, 'sd_RenDmkz14Of1hUUb');
-    }
-  }
-
-  loadModels(...others) {
-    let bh: any = {};
-    try {
-      bh = this.__page_injector__
-        .get(SDPageCommonService)
-        .constructFlowObject(this);
-      bh.input = {};
-      bh.local = {};
-      bh = this.sd_GOZAPxbwYlnHc5qq(bh);
-      //appendnew_next_loadModels
-    } catch (e) {
-      return this.errorHandler(bh, e, 'sd_od5Y24XY2KY1Vjhg');
     }
   }
 
@@ -323,10 +298,24 @@ export class verify_identityComponent implements AfterViewInit {
         picture: '',
       };
 
+      bh = this.sd_T7mUImT8NkaF1XwY(bh);
       //appendnew_next_sd_vh3M7aFNa9ZH2tRe
       return bh;
     } catch (e) {
       return this.errorHandler(bh, e, 'sd_vh3M7aFNa9ZH2tRe');
+    }
+  }
+
+  async sd_T7mUImT8NkaF1XwY(bh) {
+    try {
+      const face_apiInstance: face_api = this.__page_injector__.get(face_api);
+
+      let outputVariables = await face_apiInstance.loadModelsFromGit();
+
+      //appendnew_next_sd_T7mUImT8NkaF1XwY
+      return bh;
+    } catch (e) {
+      return this.errorHandler(bh, e, 'sd_T7mUImT8NkaF1XwY');
     }
   }
 
@@ -1102,54 +1091,6 @@ export class verify_identityComponent implements AfterViewInit {
     }
   }
 
-  async sd_IJbhT0KUb6Z1sduz(bh) {
-    try {
-      const page = this.page; // document.addEventListener('deviceready', this.onDeviceReady, false);
-
-      await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('../../assets/models'),
-        await faceapi.nets.faceLandmark68Net.loadFromUri('../../assets/models'),
-        await faceapi.nets.faceRecognitionNet.loadFromUri(
-          '../../assets/models'
-        ),
-        await faceapi.nets.faceExpressionNet.loadFromUri('../../assets/models'),
-      ]);
-
-      if (window.innerWidth < 1024) {
-        //  const modelPath = cordova.file.applicationDirectory + 'www/assets/models'
-        // await Promise.all([faceapi.nets.tinyFaceDetector.loadFromUri(modelPath),
-        //         await faceapi.nets.faceLandmark68Net.loadFromUri(modelPath),
-        //         await faceapi.nets.faceRecognitionNet.loadFromUri(modelPath),
-        //         await faceapi.nets.faceExpressionNet.loadFromUri(modelPath),
-        //         ]).then(() => {
-        //                 console.log('Models loaded successfully')
-        //         }).catch((err) => {
-        //                 console.log('Error: ', err)
-        //         })
-        console.log('On the mobile phone');
-      } else {
-        await Promise.all([
-          faceapi.nets.tinyFaceDetector.loadFromUri('../../assets/models'),
-          await faceapi.nets.faceLandmark68Net.loadFromUri(
-            '../../assets/models'
-          ),
-          await faceapi.nets.faceRecognitionNet.loadFromUri(
-            '../../assets/models'
-          ),
-          await faceapi.nets.faceExpressionNet.loadFromUri(
-            '../../assets/models'
-          ),
-        ]);
-      }
-
-      console.log('CHANGES RUNNING: ', navigator);
-      //appendnew_next_sd_IJbhT0KUb6Z1sduz
-      return bh;
-    } catch (e) {
-      return this.errorHandler(bh, e, 'sd_IJbhT0KUb6Z1sduz');
-    }
-  }
-
   sd_Mf1mJXdOyWb2aIG9(bh) {
     try {
       const page = this.page;
@@ -1169,58 +1110,6 @@ export class verify_identityComponent implements AfterViewInit {
       return bh;
     } catch (e) {
       return this.errorHandler(bh, e, 'sd_pvhKmpUQCNpNwuuf');
-    }
-  }
-
-  async sd_GOZAPxbwYlnHc5qq(bh) {
-    try {
-      const page = this.page;
-      return new Promise((resolve, reject) => {
-        document.addEventListener('deviceready', async () => {
-          try {
-            const modelBaseUrl =
-              'https://github.com/Simphiwe20/models/blob/main/';
-            console.log('Loading models from:', modelBaseUrl);
-
-            // Fetch and load TinyFaceDetector model
-            await this.loadModel(
-              faceapi.nets.tinyFaceDetector,
-              `${modelBaseUrl}tiny_face_detector_model-weights_manifest.json`,
-              modelBaseUrl
-            );
-
-            // Fetch and load FaceLandmark68Net model
-            await this.loadModel(
-              faceapi.nets.faceLandmark68Net,
-              `${modelBaseUrl}face_landmark_68_model-weights_manifest.json`,
-              modelBaseUrl
-            );
-
-            // Fetch and load FaceRecognitionNet model
-            await this.loadModel(
-              faceapi.nets.faceRecognitionNet,
-              `${modelBaseUrl}face_recognition_model-weights_manifest.json`,
-              modelBaseUrl
-            );
-
-            // Fetch and load SsdMobilenetv1 model
-            await this.loadModel(
-              faceapi.nets.ssdMobilenetv1,
-              `${modelBaseUrl}ssd_mobilenetv1_model-weights_manifest.json`,
-              modelBaseUrl
-            );
-
-            resolve('Models successfully loaded');
-          } catch (error) {
-            console.error('Error loading models:', error);
-            reject(error);
-          }
-        });
-      });
-      //appendnew_next_sd_GOZAPxbwYlnHc5qq
-      return bh;
-    } catch (e) {
-      return this.errorHandler(bh, e, 'sd_GOZAPxbwYlnHc5qq');
     }
   }
 
